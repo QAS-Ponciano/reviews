@@ -1,0 +1,50 @@
+<!-- Sub nav bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <h5>Settings</h5>
+
+</nav>
+<br>
+<!-- Container -->
+<div class="container-fluid">
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" data-target="#tab1" href="">General</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" data-target="#tab2" href="">Databank Settings</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" data-target="#tab3" href="">Other Settings</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  	<div class="tab-pane container active" id="tab1">...</div>
+	  	<div class="tab-pane container fade" id="tab2">
+	  		<br>
+			<h5 class="pull-left">Database Settings</h5>
+			<span class="pull-right text-sm">Total leads : <b>{{total_leads}}</b></span>
+			<br>
+			<hr>
+			<div class="row pad_left">
+				<div class="col-md-12">
+					<p>Choose database: </p>
+					  <select id="multiSelect" class="ng-pristine ng-valid form-control" multiselect="" multiple="" ng-model="simpli_client" ng-options="option.category for option in ctc_categories track by option.category"></select>
+					<!--
+					<select class="form-control form-control-sm" multiple="true" style="height: 100%" 
+					ng-model="init_.selected" 
+					ng-change="add_leads()"
+					ng-options = "x as x.category for x in ctc_categories track by x.id"
+					>
+					  <option ng-repeat="x in ctc_categories" value="{{x}}">{{x.category}} ({{x.count_}})</option>
+					</select>
+					<br>!-->
+					<button class="btn btn-primary btn-sm" ng-click="save_database()" ng-disabled="!selected_database.multiple.length"><i class="fa fa-save"/>Save</button>
+				</div>
+			</div> 
+		</div> 	
+	  	<div class="tab-pane container fade" id="tab3">...</div>
+	</div>
+</div>

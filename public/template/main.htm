@@ -1,0 +1,36 @@
+<!-- Container -->
+<div class="container-fluid">
+  <br>
+  <h6>EasyLifeHelper.com</h6>
+  <hr>
+  <div>
+      <button type="button" class="btn btn-info text-sm" ng-click="get_tp_easy()" ng-disabled="fetch">Trust Pilot <i class='fa fa-cog fa-spin' ng-show="fetch"></i></button>    
+      <button type="button" class="btn btn-info text-sm" ng-click="get_fb()" ng-disabled="true">Facebook</button>
+      <button type="button" class="btn btn-info text-sm" ng-click="get_gr()" ng-disabled="true">Google Reviews</button> 
+      <button type="button" class="btn btn-success text-sm pull-right" ng-click="write_gs()" ng-disabled="true">Write to GoogleSheet</button>            
+  </div>
+  <div class="row pad_">
+    <div class="col-md-12 card text-sm">  
+      <h6>{{show_reviews}}</h6>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Reviewer</th>            
+            <th>Review Text</th>              
+            <th>Review URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="d in reviews_tp">
+            <td>{{d.date | date: "MMM dd"}}</td>
+            <td>{{d.account_name}}</td>
+            <td>{{d.article}}</td>            
+            <td>{{d.url}}</td>            
+          </tr>
+        </tbody>
+      </table>                     
+  </div>
+</div>
+
+
