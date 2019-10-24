@@ -23,7 +23,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="d in reviews">
-            <td width="20%">{{d.date | date: "MMM dd"}}</td>
+            <td width="20%">{{d.date | date: "MMM dd yyyy"}}</td>
             <td width="20%">{{d.account_name}}</td>
             <td width="40%">{{d.article}}</td>            
             <td width="20%"><a target="_blank" href="{{d.url}}">{{d.url}}</a></td>            
