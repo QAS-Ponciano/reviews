@@ -12,4 +12,4 @@ Readme
 
 5. To run program. Type in terminal, "node index.js" 
 
-6. Open browser at http://localhost
+6. Open browser at http://localhost:3000
