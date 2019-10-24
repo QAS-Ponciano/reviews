@@ -20,7 +20,7 @@ const puppeteer = require('puppeteer');
 //Easy Life Helper
 app.post("/get_tp_easy", function(req,res){
 	var data = req.body;
-	main_tp('https://www.trustpilot.com/review/coachingbusiness.org').then(function(reviews){
+	main_tp('https://www.trustpilot.com/review/easylifehelper.com').then(function(reviews){
 		res.send(reviews);
 	});
 })
