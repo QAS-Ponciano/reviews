@@ -14,13 +14,13 @@ app.use(function(req, res, next) {
 });
 
 const puppeteer = require('puppeteer');
-const tr = require('timeago-reverse');
+
 //Post request
 
 //Easy Life Helper
 app.post("/get_tp_easy", function(req,res){
 	var data = req.body;
-	main_tp('https://www.trustpilot.com/review/easylifehelper.com').then(function(reviews){
+	main_tp('https://www.trustpilot.com/review/coachingbusiness.org').then(function(reviews){
 		res.send(reviews);
 	});
 })
@@ -277,11 +277,12 @@ async function main_gr(url) {
 		]);		
 		await page.waitForSelector('.section-layout');
 		const sections = await page.$$('.section-review');
+		console.log(sections.length);
 		for(i = 0; i < sections.length; i++){
 			//get date
 			const d = await page.$$('.section-review-publish-date');
-			var d_ = await (await d[i].getProperty('innerText')).jsonValue();
-			const d_text = tr.parse(d_.toString());
+			const d_text = await (await d[i].getProperty('innerText')).jsonValue();
+
 			//get account name
 			const a = await page.$$('.section-review-titles a .section-review-title');
 			const a_text = await (await a[i].getProperty('innerText')).jsonValue();
@@ -311,8 +312,6 @@ async function main_gr(url) {
 	}
 }
 
-//main_fb('https://www.facebook.com/Easy-Life-Helper-113016700077154/reviews/?ref=page_internal');
-
 async function main_fb(url) {
 	console.log("Fetching: " + url)
 	var data = [];
@@ -325,11 +324,13 @@ async function main_fb(url) {
 		await autoScroll(page);
 		await page.waitForSelector('#recommendations_tab_main_feed');
 		const sections = await page.$$('.userContentWrapper');
+		console.log(sections.length);
 		for(i = 0; i < sections.length; i++){
 
 			//get date
-			const d = await page.$$eval(".fsm > ._5pcq > abbr", el => el.map(x => x.getAttribute("data-utime")));
-			const d_text = parseInt(d[i]) * 1000;
+			const d = await page.$$('.timestampContent');
+			const d_text = await (await d[i].getProperty('textContent')).jsonValue();
+
 			//get account name
 			const a = await page.$$('.fwb');
 			const a_text = await (await a[i].getProperty('textContent')).jsonValue();
