@@ -6,7 +6,7 @@ Readme
 
 3. On terminal, type "git clone https://github.com/QAS-Ponciano/reviews"
 
-    a. After downloading, go to folder (reviews/)
+    a. After downloading, go to folder (type in terminal, "cd reviews")
 
 4. On terminal,  type "npm install", program will install needed dependencies
 
