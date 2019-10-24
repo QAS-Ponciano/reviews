@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
 });
 
 const puppeteer = require('puppeteer');
-
+const tr = require('timeago-reverse');
 //Post request
 
 //Easy Life Helper
@@ -280,8 +280,8 @@ async function main_gr(url) {
 		for(i = 0; i < sections.length; i++){
 			//get date
 			const d = await page.$$('.section-review-publish-date');
-			const d_text = await (await d[i].getProperty('innerText')).jsonValue();
-
+			var d_ = await (await d[i].getProperty('innerText')).jsonValue();
+			const d_text = tr.parse(d_.toString());
 			//get account name
 			const a = await page.$$('.section-review-titles a .section-review-title');
 			const a_text = await (await a[i].getProperty('innerText')).jsonValue();
