@@ -1,8 +1,9 @@
 Readme
 
-1. Install nodejs https://nodejs.org/en/download/
-2. Install git https://git-scm.com/downloads
-3. On command line type "git clone https://github.com/QAS-Ponciano/reviews"
-4. On command line type "npm install", program will install needed dependencies
-5. Run node index.js
-6. Open browser at http://localhost
+Install nodejs https://nodejs.org/en/download/
+Install git https://git-scm.com/downloads
+On terminal, type "git clone https://github.com/QAS-Ponciano/reviews"
+After downloading, go to folder (reviews/)
+On terminal,  type "npm install", program will install needed dependencies
+To run program. Type in terminal, "node index.js" 
+Open browser at http://localhost
