@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="d in reviews">
+          <tr ng-repeat="d in reviews | orderBy: '-date'">
             <td width="20%">{{d.date | date: "MMM dd yyyy"}}</td>
             <td width="20%">{{d.account_name}}</td>
             <td width="40%">{{d.article}}</td>            
