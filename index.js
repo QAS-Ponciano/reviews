@@ -71,14 +71,14 @@ app.post("/get_tp_coaching", function(req,res){
 
 app.post("/get_fb_coaching", function(req,res){
 	var data = req.body;
-	main_fb('https://www.facebook.com/pg/Top-Coach-Consulting-110555270308984/reviews/?ref=page_internal').then(function(reviews){
+	main_fb('https://www.facebook.com/pg/Coaching-Business-101946834506142/reviews/?ref=page_internal').then(function(reviews){
 		res.send(reviews);
 	});
 })
 
 app.post("/get_gr_coaching", function(req,res){
 	var data = req.body;
-	main_gr('https://www.google.com/maps/place/TopCoachConsulting.com/@34.4567462,-118.6285538,17z/data=!3m1!4b1!4m5!3m4!1s0x80c27fd25aeff271:0x5006c31c5a84598e!8m2!3d34.4567418!4d-118.6263651').then(function(reviews){
+	main_gr('https://www.google.com/maps/place/coachingbusiness.org/@34.4083226,-118.5879366,17z/data=!3m1!4b1!4m13!1m7!3m6!1s0x80c280c97f9826d9:0x26faec94dd8fae82!2s26852+Greenleaf+Ct,+Stevenson+Ranch,+CA+91381,+USA!3b1!8m2!3d34.4083226!4d-118.5857479!3m4!1s0x80c2814cc22bfc45:0x83a54245f4c0d1f5!8m2!3d34.4083226!4d-118.5857479').then(function(reviews){
 		res.send(reviews);
 	});
 })
@@ -167,7 +167,7 @@ app.post("/get_fb_driveforsuccess", function(req,res){
 
 app.post("/get_gr_driveforsuccess", function(req,res){
 	var data = req.body;
-	main_gr('https://www.google.com/maps/place/DriveForSuccess.org/@34.4587923,-118.541016,17z/data=!3m1!4b1!4m5!3m4!1s0x80c27d9d2d8df345:0xb09591c622bb521b!8m2!3d34.4587879!4d-118.5388273?hl=en-PH').then(function(reviews){
+	main_gr('https://www.google.com/maps/place/DriveForSuccess.org/@34.4587923,-118.541016,17z/data=!3m1!4b1!4m5!3m4!1s0x80c27d9d2d8df345:0xb09591c622bb521b!8m2!3d34.4587879!4d-118.5388273').then(function(reviews){
 		res.send(reviews);
 	});
 })
@@ -311,8 +311,6 @@ async function main_gr(url) {
 	}
 }
 
-//main_fb('https://www.facebook.com/Easy-Life-Helper-113016700077154/reviews/?ref=page_internal');
-
 async function main_fb(url) {
 	console.log("Fetching: " + url)
 	var data = [];
@@ -325,11 +323,33 @@ async function main_fb(url) {
 		await autoScroll(page);
 		await page.waitForSelector('#recommendations_tab_main_feed');
 		const sections = await page.$$('.userContentWrapper');
+
+		//removing all ellipsis identified by QAS-Jarvin
+
+		const rem = ".text_exposed_hide";
+		await page.evaluate((sel) => {
+			var elements = document.querySelectorAll(sel);
+			for(var i=0; i< elements.length; i++){
+				elements[i].parentNode.removeChild(elements[i]);
+			}
+		}, rem);
+
+		const rem1 = "see_more_link_inner";
+		await page.evaluate((sel) => {
+			var elements = document.querySelectorAll(sel);
+			for(var i=0; i< elements.length; i++){
+				elements[i].parentNode.removeChild(elements[i]);
+			}
+		}, rem1);		
+
+
+
 		for(i = 0; i < sections.length; i++){
 
 			//get date
 			const d = await page.$$eval(".fsm > ._5pcq > abbr", el => el.map(x => x.getAttribute("data-utime")));
-			const d_text = parseInt(d[i]) * 1000;
+			const d_text = parseInt(d[i] * 1000);
+
 			//get account name
 			const a = await page.$$('.fwb');
 			const a_text = await (await a[i].getProperty('textContent')).jsonValue();
@@ -340,14 +360,31 @@ async function main_fb(url) {
 			const u_text = await page.$$eval(selector, am => am.filter(e => e.href).map(e => e.href))
 
 			//get article text
-			const p = await page.$$('.userContent');		
-			const p_text = await (await p[i].getProperty('textContent')).jsonValue();		
+			const p = await page.$$('.userContent');
+			const p_text = await (await p[i].getProperty('textContent')).jsonValue();
+
+			//replies
+			const s_reviews = ('._3l3x');
+			try {
+				const r = await page.$$(s_reviews);
+				const r_text = await (await r[i].getProperty('textContent')).jsonValue();	
+				var r_text_ = r_text.toString();
+				var r_text__ = r_text_.slice(0,r_text_.lastIndexOf("…"));		
+			}
+			catch (e)
+			{
+				//console.log(e);
+				var r_text__ = "";
+			}
+
 			//push all data to data array
 			data.push({
 				date : d_text,
 				account_name : a_text,
 				url : u_text[i],
-				article : p_text
+				article : p_text,
+				replies: r_text__
+				
 			});			
 		}
 		return data;
@@ -381,5 +418,4 @@ async function autoScroll(page){
         });
     });
 }
-
 
